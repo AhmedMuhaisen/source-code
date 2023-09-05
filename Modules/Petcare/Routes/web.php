@@ -1,27 +1,28 @@
 <?php
 
 use App\Exports\SaleCategoryExport;
-use Modules\Petcare\Http\Controllers\CouponController;
-use Modules\Petcare\Http\Controllers\GiftcardController;
-use Modules\Petcare\Http\Controllers\ProductBrandController;
-use Modules\Petcare\Http\Controllers\ProductCategoryController;
-use Modules\Petcare\Http\Controllers\ProductTaxController;
-use Modules\Petcare\Http\Controllers\ProductUnitController;
-use Modules\Petcare\Http\Controllers\ProductWarehouseController;
-use Modules\Petcare\Http\Controllers\SaleAdjusmentController;
-use Modules\Petcare\Http\Controllers\SaleCashRegisterController;
+use Illuminate\Support\Facades\Route;
 use Modules\Petcare\Http\Controllers\SaleController;
-use Modules\Petcare\Http\Controllers\SaleDeliveryController;
-use Modules\Petcare\Http\Controllers\SaleExpenseCategoryController;
-use Modules\Petcare\Http\Controllers\SaleExpenseController;
+use Modules\Petcare\Http\Controllers\CouponController;
 use Modules\Petcare\Http\Controllers\ServiceController;
-use Modules\Petcare\Http\Controllers\SalePurchaseController;
-use Modules\Petcare\Http\Controllers\SaleQuotationController;
-use Modules\Petcare\Http\Controllers\SaleReturnController;
-use Modules\Petcare\Http\Controllers\SaleReturnPurchaseController;
-use Modules\Petcare\Http\Controllers\SaleStockCountController;
 use Modules\Petcare\Http\Controllers\TrainerController;
+use Modules\Petcare\Http\Controllers\GiftcardController;
+use Modules\Petcare\Http\Controllers\ProductTaxController;
+use Modules\Petcare\Http\Controllers\SaleReturnController;
+use Modules\Petcare\Http\Controllers\ProductUnitController;
+use Modules\Petcare\Http\Controllers\SaleExpenseController;
+use Modules\Petcare\Http\Controllers\ProductBrandController;
+use Modules\Petcare\Http\Controllers\SaleDeliveryController;
+use Modules\Petcare\Http\Controllers\SalePurchaseController;
 use Modules\Petcare\Http\Controllers\SaleTransferController;
+use Modules\Petcare\Http\Controllers\SaleAdjusmentController;
+use Modules\Petcare\Http\Controllers\SaleQuotationController;
+use Modules\Petcare\Http\Controllers\SaleStockCountController;
+use Modules\Petcare\Http\Controllers\ProductCategoryController;
+use Modules\Petcare\Http\Controllers\ProductWarehouseController;
+use Modules\Petcare\Http\Controllers\SaleCashRegisterController;
+use Modules\Petcare\Http\Controllers\SaleReturnPurchaseController;
+use Modules\Petcare\Http\Controllers\SaleExpenseCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -248,12 +249,17 @@ Route::group(['middleware' => ['xss', 'admin', 'TimeZone'], 'prefix' => ''], fun
             Route::get('', [ServiceController::class, 'index'])->name('service.index');
             Route::get('list', [ServiceController::class, 'index'])->name('service.index');
             Route::get('create', [ServiceController::class, 'create'])->name('service.create');
+
+          
+
             Route::get('additional-services', [ServiceController::class, 'additionalServices'])->name('additional-services');
             Route::post('additional-services', [ServiceController::class, 'storeAdditionalServices'])->name('additional-services.store');
 
             Route::post('store', [ServiceController::class, 'store'])->name('service.store');
             Route::get('{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
-            Route::post('update', [ServiceController::class, 'update'])->name('service.update');
+            Route::post('{id}/update', [ServiceController::class, 'update'])->name('service.update');
+            Route::post('service/change_check/{id}', [ServiceController::class, 'updateStatus'])->name('service.change_check');
+           
             Route::delete('delete/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
         });
 

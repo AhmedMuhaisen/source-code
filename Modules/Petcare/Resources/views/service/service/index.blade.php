@@ -3,6 +3,7 @@
 @push('plugin-styles')
     <link href="{{ asset('public/theme/assets/plugins/datatables-net-bs5/dataTables.bootstrap5.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/theme/assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
 @section('content')
 
@@ -47,10 +48,7 @@
                                     @foreach ($data['services'] as $key => $service)
                                         <tr class="align-middle">
                                             <td>
-
-
                                                 <div class="d-flex align-items-center">
-
                                                     @if ($service->image)
                                                         <img class="img-xs rounded-circle"
                                                             src="{{ asset('public/images/service/' . $service->image) }}">
@@ -64,8 +62,6 @@
                                                         <span class="tx-11 text-muted">ID {{ $service->code }}</span>
                                                     </div>
                                                 </div>
-
-
                                             </td>
                                             <td>{{ $service->type }}</td>
                                             <td>{{ $service->price }} AED</td>
@@ -75,16 +71,19 @@
                                             <td>
                                                 <div class="form-check form-switch mb-2">
                                                     <input type="checkbox" class="form-check-input" id="formSwitch1"
-                                                        @if ($service->is_active == 1) checked @endif>
+                                                        @if ($service->is_active == 1) checked 
+                                                        @endif Onchange="change_check(event,{{$service->id}})">
 
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="" class="btn btn btn-link btn-icon">
+                                                <a href="{{ route('service.edit',$service->id) }}" class="btn btn btn-link btn-icon">
                                                     <i data-feather="check-square"></i>
                                                 </a>
+
                                                 <a class="btn btn btn-link btn-icon"
                                                     onclick="showSwal('{{ route('service.destroy', [$service->id]) }}')">
+                                                   
                                                     <i data-feather="trash-2"></i>
                                                 </a>
 
@@ -109,7 +108,45 @@
 
 @push('custom-scripts')
     <script src="{{ asset('public/theme/assets/js/data-table.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+
+
+
+function change_check(e,id){
+    var status =0 ;
+   
+        if (e.target.checked) {
+            status =1;
+          
+        } else {
+            status =0;
+        }
+        console.log(status)
+
+        axios.post('service/change_check/'+id,{
+            'status':status
+        })
+                .then(function (response) {
+                    console.log(response.data);
+                    const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            });
+                            Toast.fire({
+                                icon: 'info',
+                                title: response.data.status
+                            })
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
         $(function() {
             var redirect = "{{ route('service.index') }}";
 

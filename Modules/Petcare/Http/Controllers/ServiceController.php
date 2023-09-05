@@ -2,18 +2,27 @@
 
 namespace Modules\Petcare\Http\Controllers;
 
-use Modules\Petcare\Interfaces\ServiceRepositoryInterface;
+use Exception;
 use App\Models\User;
 use Milon\Barcode\DNS1D;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Brian2694\Toastr\Facades\Toastr;
-use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Auth;
 use Modules\Petcare\Entities\SaleTax;
 use Modules\Petcare\Entities\Service;
+use Modules\Petcare\Entities\SaleUnit;
+use Modules\Petcare\Entities\SaleBrand;
+use Modules\Petcare\Entities\SaleReturn;
+use Modules\Petcare\Entities\SaleVariant;
+use Modules\Petcare\Entities\SaleCategory;
+use Modules\Petcare\Entities\SalePurchase;
+use Modules\Petcare\Entities\SaleWarehouse;
+use Modules\Petcare\Entities\SaleProductVariant;
+use Modules\Petcare\Entities\SaleReturnPurchase;
+use Modules\Petcare\Interfaces\ServiceRepositoryInterface;
 
 class ServiceController extends Controller
 {
@@ -68,7 +77,7 @@ class ServiceController extends Controller
             $data['services'] = $this->serviceRepository->createService($data);
             DB::commit();
 
-            return response()->json(['success'=>'Got Simple Ajax Request.']);;
+            return response()->json(['success' => 'Got Simple Ajax Request.']);;
         } catch (Exception $e) {
             DB::rollback();
             // return $this->sendError(__('auth.some_error'), $this->exMessage($e));
@@ -164,6 +173,15 @@ class ServiceController extends Controller
 
     public function edit($id)
     {
+
+        $service = $this->serviceRepository->getServiceById($id);
+
+        $data['tax_list'] = SaleTax::where('is_active', true)->get();
+
+        $additional_service = 1;
+        $data['services'] = $this->serviceRepository->getAllServices($additional_service);
+
+        return view('petcare::service.service.edit')->with('service', $service)->with('data', $data);
     }
 
     public function importProduct(Request $request)
@@ -253,6 +271,7 @@ class ServiceController extends Controller
                         'qty' => 0
                     ]);
                 }
+
                 $product->is_variant = true;
                 $product->save();
             }
@@ -262,161 +281,24 @@ class ServiceController extends Controller
     }
 
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
 
-        $ot_crm_product_data = Service::findOrFail($request->input('id'));
-        $data = $request->except('image', 'file', 'prev_img');
-        $data['name'] = htmlspecialchars(trim($data['name']));
-        $data['slug'] = Str::slug($data['name']);
+        dd($request->all());
+        $service = $request->validate([
+            'name' => 'required',
+            'code' => 'required',
+            'price' => 'required',
+            'tax_id' => 'required',
+            'type' => 'required',
+            'featured' => 'required',
+            'image' => 'required |image |enum:png,jpg',
+            'service_details' => 'required'
+        ]);
 
-        if ($data['type'] == 'combo') {
-            $data['product_list'] = implode(",", $data['product_id']);
-            $data['variant_list'] = implode(",", $data['variant_id']);
-            $data['qty_list'] = implode(",", $data['product_qty']);
-            $data['price_list'] = implode(",", $data['unit_price']);
-            $data['cost'] = $data['unit_id'] = $data['purchase_unit_id'] = $data['sale_unit_id'] = 0;
-        } elseif ($data['type'] == 'digital' || $data['type'] == 'service')
-            $data['cost'] = $data['unit_id'] = $data['purchase_unit_id'] = $data['sale_unit_id'] = 0;
-
-        if (!isset($data['featured']))
-            $data['featured'] = 0;
-
-        if (!isset($data['is_embeded']))
-            $data['is_embeded'] = 0;
-
-        if (!isset($data['promotion']))
-            $data['promotion'] = null;
-
-        if (!isset($data['is_batch']))
-            $data['is_batch'] = null;
-
-        if (!isset($data['is_imei']))
-            $data['is_imei'] = null;
-
-        $data['product_details'] = str_replace('"', '@', $data['product_details']);
-        $data['product_details'] = $data['product_details'];
-        if ($data['starting_date'])
-            $data['starting_date'] = date('Y-m-d', strtotime($data['starting_date']));
-        if ($data['last_date'])
-            $data['last_date'] = date('Y-m-d', strtotime($data['last_date']));
-
-        $previous_images = [];
-        //dealing with previous images
-        if ($request->prev_img) {
-            foreach ($request->prev_img as $key => $prev_img) {
-                if (!in_array($prev_img, $previous_images))
-                    $previous_images[] = $prev_img;
-            }
-            $ot_crm_product_data->image = implode(",", $previous_images);
-            $ot_crm_product_data->save();
-        } else {
-            $ot_crm_product_data->image = null;
-            $ot_crm_product_data->save();
-        }
-
-        //dealing with new images
-        if ($request->image) {
-            $images = $request->image;
-            $image_names = [];
-            $length = count(explode(",", $ot_crm_product_data->image));
-            foreach ($images as $key => $image) {
-                $ext = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
-                /*$image = Image::make($image)->resize(512, 512);*/
-                $imageName = date("Ymdhis") . ($length + $key + 1) . '.' . $ext;
-                $image->move('public/images/product', $imageName);
-                $image_names[] = $imageName;
-            }
-            if ($ot_crm_product_data->image)
-                $data['image'] = $ot_crm_product_data->image . ',' . implode(",", $image_names);
-            else
-                $data['image'] = implode(",", $image_names);
-        } else
-            $data['image'] = $ot_crm_product_data->image;
-
-        $file = $request->file;
-        if ($file) {
-            $ext = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-            $fileName = strtotime(date('Y-m-d H:i:s'));
-            $fileName = $fileName . '.' . $ext;
-            $file->move('public/product/files', $fileName);
-            $data['file'] = $fileName;
-        }
-
-        $old_product_variant_ids = SaleProductVariant::where('product_id', $request->input('id'))->pluck('id')->toArray();
-        $new_product_variant_ids = [];
-        //dealing with product variant
-        if (isset($data['is_variant'])) {
-            if (isset($data['variant_option']) && isset($data['variant_value'])) {
-                $data['variant_option'] = json_encode($data['variant_option']);
-                $data['variant_value'] = json_encode($data['variant_value']);
-            }
-            foreach ($data['variant_name'] as $key => $variant_name) {
-                $ot_crm_variant_data = SaleVariant::firstOrCreate(['name' => $data['variant_name'][$key]]);
-                $ot_crm_product_variant_data = SaleProductVariant::where([
-                    ['product_id', $ot_crm_product_data->id],
-                    ['variant_id', $ot_crm_variant_data->id]
-                ])->first();
-                if ($ot_crm_product_variant_data) {
-                    $ot_crm_product_variant_data->update([
-                        'position' => $key + 1,
-                        'item_code' => $data['item_code'][$key],
-                        'additional_cost' => $data['additional_cost'][$key],
-                        'additional_price' => $data['additional_price'][$key]
-                    ]);
-                } else {
-                    $ot_crm_product_variant_data = new SaleProductVariant();
-                    $ot_crm_product_variant_data->product_id = $ot_crm_product_data->id;
-                    $ot_crm_product_variant_data->variant_id = $ot_crm_variant_data->id;
-                    $ot_crm_product_variant_data->position = $key + 1;
-                    $ot_crm_product_variant_data->item_code = $data['item_code'][$key];
-                    $ot_crm_product_variant_data->additional_cost = $data['additional_cost'][$key];
-                    $ot_crm_product_variant_data->additional_price = $data['additional_price'][$key];
-                    $ot_crm_product_variant_data->qty = 0;
-                    $ot_crm_product_variant_data->save();
-                }
-                $new_product_variant_ids[] = $ot_crm_product_variant_data->id;
-            }
-        } else {
-            $data['is_variant'] = null;
-            $data['variant_option'] = null;
-            $data['variant_value'] = null;
-        }
-        //deleting old product variant if not exist
-        foreach ($old_product_variant_ids as $key => $product_variant_id) {
-            if (!in_array($product_variant_id, $new_product_variant_ids))
-                SaleProductVariant::find($product_variant_id)->delete();
-        }
-        if (isset($data['is_diffPrice'])) {
-            foreach ($data['diff_price'] as $key => $diff_price) {
-                if ($diff_price) {
-                    $ot_crm_product_warehouse_data = SaleProductWarehouse::FindProductWithoutVariant($ot_crm_product_data->id, $data['warehouse_id'][$key])->first();
-                    if ($ot_crm_product_warehouse_data) {
-                        $ot_crm_product_warehouse_data->price = $diff_price;
-                        $ot_crm_product_warehouse_data->save();
-                    } else {
-                        SaleProductWarehouse::create([
-                            "product_id" => $ot_crm_product_data->id,
-                            "warehouse_id" => $data["warehouse_id"][$key],
-                            "qty" => 0,
-                            "price" => $diff_price
-                        ]);
-                    }
-                }
-            }
-        } else {
-            $data['is_diffPrice'] = false;
-            foreach ($data['warehouse_id'] as $key => $warehouse_id) {
-                $ot_crm_product_warehouse_data = SaleProductWarehouse::FindProductWithoutVariant($ot_crm_product_data->id, $warehouse_id)->first();
-                if ($ot_crm_product_warehouse_data) {
-                    $ot_crm_product_warehouse_data->price = null;
-                    $ot_crm_product_warehouse_data->save();
-                }
-            }
-        }
-        $ot_crm_product_data->update($data);
-        Toastr::success(_trans('response.Product updated successfully'), 'Success');
-        return response()->json(['status' => 'success']);
+        $service['slug'] = Str::slug($request->name);
+        $data['services'] = $this->serviceRepository->updateService($id, $service);
+        return redirect()->route('petcare::service.service.index');
     }
 
     public function destroy($id)
@@ -427,6 +309,15 @@ class ServiceController extends Controller
         return response()->json(['status' => 'success']);
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+     
+        if ($this->serviceRepository->updateStatus($id,$request->status)) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'success']);
+        }
+    }
 
     public function printBarcode(Request $request)
     {

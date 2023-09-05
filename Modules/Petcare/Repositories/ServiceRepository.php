@@ -10,9 +10,13 @@ class ServiceRepository implements ServiceRepositoryInterface
     public function getAllServices($is_additional = 0)
     {
 
-        return Service::where('is_additional', $is_additional)->get()->all();
+        return Service::where('is_additional', $is_additional)->get();
     }
 
+    public function updateStatus($id,$status)
+    {
+        return Service::find($id)->update(['is_active' => $status]);
+    }
     public function getServiceById($serviceId)
     {
         return Service::findOrFail($serviceId);
@@ -25,7 +29,7 @@ class ServiceRepository implements ServiceRepositoryInterface
 
     public function createService(array $serviceDetails)
     {
-        
+
         return Service::create($serviceDetails);
     }
 
