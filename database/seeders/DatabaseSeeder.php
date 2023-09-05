@@ -19,6 +19,7 @@ use Database\Seeders\Admin\RoleSeeder;
 use Database\Seeders\Admin\UserSeeder;
 use Database\Seeders\AttendanceSeeder;
 use Database\Seeders\Leads\LeadSeeder;
+use Database\Seeders\role\PermissionSeeder;
 use Database\Seeders\SearchMenuSeeder;
 use Database\Seeders\StockBrandSeeder;
 use Database\Seeders\DesignationSeeder;
@@ -41,8 +42,8 @@ use Database\Seeders\Hrm\Visit\NoteSeeder;
 use Database\Seeders\Leads\LeadTypeSeeder;
 use Database\Seeders\Hrm\AppointmentSeeder;
 use Database\Seeders\Hrm\Shift\ShiftSeeder;
+
 use Database\Seeders\Hrm\Visit\VisitSeeder;
-use Database\Seeders\Admin\PermissionSeeder;
 use Database\Seeders\Hrm\LeaveSettingSeeder;
 use Database\Seeders\Hrm\SubscriptionSeeder;
 use Database\Seeders\Leads\LeadSourceSeeder;
@@ -71,84 +72,84 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
+        $this->call(PermissionSeeder::class);
         if (config('app.APP_CRM') && env('APP_ENV') == "local") {
 
-            $this->keyGenerate();
-            $this->call(CountrySeeder::class);
-            $this->call(CompanySeeder::class);
-            $this->call(DesignationSeeder::class);
-            $this->call(PermissionSeeder::class);
-            $this->call(RoleSeeder::class);
-            $this->call(UploadSeeder::class);
-            $this->call(ShiftSeeder::class);
-            $this->call(WeekendSetupSeeder::class);
-            $this->call(DutyScheduleSeeder::class);
-            $this->call(UserSeeder::class);
-            $this->call(SettingsSeeder::class);
-            $this->call(LeaveSettingSeeder::class);
-            $this->call(CompanyConfigSeeder::class);
+        //     $this->keyGenerate();
+        //     $this->call(CountrySeeder::class);
+        //     $this->call(CompanySeeder::class);
+        //     $this->call(DesignationSeeder::class);
+        //     $this->call(PermissionSeeder::class);
+        //     $this->call(RoleSeeder::class);
+        //     $this->call(UploadSeeder::class);
+        //     $this->call(ShiftSeeder::class);
+        //     $this->call(WeekendSetupSeeder::class);
+        //     $this->call(DutyScheduleSeeder::class);
+        //     $this->call(UserSeeder::class);
+        //     $this->call(SettingsSeeder::class);
+        //     $this->call(LeaveSettingSeeder::class);
+        //     $this->call(CompanyConfigSeeder::class);
 
 
-            $this->call(ExpenseSeeder::class);
-            $this->call(LeaveSeeder::class);
-            $this->call(HolidaySeeder::class);
-            $this->call(AppScreenSeeder::class);
-            $this->call(AllContentSeeder::class);
-            $this->call(FeatureSeeder::class);
-            $this->call(TestimonialSeeder::class);
-            $this->call(PayrollSeeder::class);
-            $this->call(TeamSeeder::class);
-            $this->call(NotificationTypeSeeder::class);
+        //     $this->call(ExpenseSeeder::class);
+        //     $this->call(LeaveSeeder::class);
+        //     $this->call(HolidaySeeder::class);
+        //     $this->call(AppScreenSeeder::class);
+        //     $this->call(AllContentSeeder::class);
+        //     $this->call(FeatureSeeder::class);
+        //     $this->call(TestimonialSeeder::class);
+        //     $this->call(PayrollSeeder::class);
+        //     $this->call(TeamSeeder::class);
+        //     $this->call(NotificationTypeSeeder::class);
 
-            //Demo Data Start
-            $this->call(VisitSeeder::class);
-            $this->call(NoteSeeder::class);
-            $this->call(ScheduleSeeder::class);
-            $this->call(NoticeSeeder::class);
-            $this->call(EmployeeTasksSeeder::class);
-            $this->call(AppointmentSeeder::class);
-            $this->call(MeetingSeeder::class);
-            $this->call(NotificationSeeder::class);
-            $this->call(SubscriptionSeeder::class);
-            $this->call(AttendanceSeeder::class);
-            $this->call(ExpenseSeeder::class);
+        //     //Demo Data Start
+        //     $this->call(VisitSeeder::class);
+        //     $this->call(NoteSeeder::class);
+        //     $this->call(ScheduleSeeder::class);
+        //     $this->call(NoticeSeeder::class);
+        //     $this->call(EmployeeTasksSeeder::class);
+        //     $this->call(AppointmentSeeder::class);
+        //     $this->call(MeetingSeeder::class);
+        //     $this->call(NotificationSeeder::class);
+        //     $this->call(SubscriptionSeeder::class);
+        //     $this->call(AttendanceSeeder::class);
+        //     $this->call(ExpenseSeeder::class);
 
-            $this->call(GoalSeeder::class);
-            $this->call(ClientSeeder::class);
-            $this->call(ProjectSeeder::class);
-            $this->call(TaskSeeder::class);
-            $this->call(AwardSeeder::class);
-            $this->call(TravelSeeder::class);
-            $this->call(IndicatorSeeder::class);
-            $this->call(FrontSeeder::class);
+        //     $this->call(GoalSeeder::class);
+        //     $this->call(ClientSeeder::class);
+        //     $this->call(ProjectSeeder::class);
+        //     $this->call(TaskSeeder::class);
+        //     $this->call(AwardSeeder::class);
+        //     $this->call(TravelSeeder::class);
+        //     $this->call(IndicatorSeeder::class);
+        //     $this->call(FrontSeeder::class);
 
-            /* **************** stock seeder **************** */
-            $this->call(StockCategorySeeder::class);
-            $this->call(StockBrandSeeder::class);
-            $this->call(StockProductSeeder::class);
-            $this->call(StockPaymentHistorySeeder::class);
-            $this->call(PurchaseSeeder::class);
-            $this->call(ProductPurchaseHistorySeeder::class);
-            $this->call(StockHistorySeeder::class);
-            $this->call(StockSaleSeeder::class);
-            $this->call(StockSaleHistorySeeder::class);
-            /* **************** stock seeder **************** */
+        //     /* **************** stock seeder **************** */
+        //     $this->call(StockCategorySeeder::class);
+        //     $this->call(StockBrandSeeder::class);
+        //     $this->call(StockProductSeeder::class);
+        //     $this->call(StockPaymentHistorySeeder::class);
+        //     $this->call(PurchaseSeeder::class);
+        //     $this->call(ProductPurchaseHistorySeeder::class);
+        //     $this->call(StockHistorySeeder::class);
+        //     $this->call(StockSaleSeeder::class);
+        //     $this->call(StockSaleHistorySeeder::class);
+        //     /* **************** stock seeder **************** */
 
-            //Income seeder
-            $this->call(TransactionSeeder::class);
+        //     //Income seeder
+        //     $this->call(TransactionSeeder::class);
 
-            // start lead module
-            $this->call(LeadTypeSeeder::class);
-            $this->call(LeadStatusSeeder::class);
-            $this->call(LeadSourceSeeder::class);
-            $this->call(LeadSeeder::class);
-            // end lead module
-            // search menu seeder
-            $this->call(SearchMenuSeeder::class);
-        } else {
-            $this->call(CrmInstallerSeeder::class);
-        }
-
+        //     // start lead module
+        //     $this->call(LeadTypeSeeder::class);
+        //     $this->call(LeadStatusSeeder::class);
+        //     $this->call(LeadSourceSeeder::class);
+        //     $this->call(LeadSeeder::class);
+        //     // end lead module
+        //     // search menu seeder
+        //     $this->call(SearchMenuSeeder::class);
+        // } else {
+        //     $this->call(CrmInstallerSeeder::class);
+        // }
+      
     }
-}
+    }}

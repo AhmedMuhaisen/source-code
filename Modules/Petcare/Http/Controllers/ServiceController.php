@@ -11,6 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Modules\Petcare\Entities\SaleTax;
 use Modules\Petcare\Entities\Service;
 use Modules\Petcare\Entities\SaleUnit;
@@ -35,7 +36,9 @@ class ServiceController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('Category.create');
         try {
+            
             DB::beginTransaction();
 
             $data['services'] = $this->serviceRepository->getAllServices();
