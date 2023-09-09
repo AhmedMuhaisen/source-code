@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Leave\LeaveRequestController;
 use App\Http\Controllers\Api\Report\BreakReportController;
 use App\Http\Controllers\Backend\Finance\ExpenseController;
 use App\Http\Controllers\Backend\Meeting\MeetingController;
+use Modules\Petcare\Http\Controllers\api\TrainerController;
 use App\Http\Controllers\Api\Auth\FaceRecognitionController;
 use App\Http\Controllers\Api\Employee\AppointmentController;
 use App\Http\Controllers\Api\Appreciate\AppreciateController;
@@ -36,7 +37,7 @@ use App\Http\Controllers\Api\Report\Attendance\AttendanceReportController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
  */
-
+Route::apiResource('trainer',TrainerController::class);
 Route::group(['middleware' => ['api', 'cors', 'TimeZone', 'MaintenanceMode'], 'prefix' => 'V11'], function () {
     Route::post('login',                                [AuthController::class,'login']);
     Route::post('reset-password',                       [AuthController::class, 'sendResetLinkEmail']);

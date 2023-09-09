@@ -74,7 +74,7 @@ class AssignLeaveRepository
     {
 
         try {
-            if ($this->isExistsWhenStoreMultipleColumn($this->assignLeave, 'department_id', 'type_id', $request->type_id, $request->department_id)) {
+            if ($this->isExistsWhenStoremultipleColumn($this->assignLeave, 'department_id', 'type_id', $request->type_id, $request->department_id)) {
                 $assign_leave = new $this->assignLeave;
                 $assign_leave->days = $request->days;
                 $assign_leave->type_id = $request->type_id;

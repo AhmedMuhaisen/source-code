@@ -342,5 +342,9 @@
     "Create Service": "Create Service",
     "Service Image": "Service Image",
     "Additional Service": "Additional Service",
-    "Service Pricce": "Service Pricce"
+    "Service Pricce": "Service Pricce",
+    "User Name": "User Name",
+    "location": "location",
+    "Rewards": "Rewards",
+    "image": "image"
 }

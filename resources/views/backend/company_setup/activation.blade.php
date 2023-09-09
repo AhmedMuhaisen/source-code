@@ -163,7 +163,7 @@
                                                             <div class="col-md-12">
                                                                 <div class="form-group row">
                                                                     <label class="col-sm-6 col-form-label">
-                                                                        {{ _trans('settings.Multiple Check In & Check Out') }}
+                                                                        {{ _trans('settings.multiple Check In & Check Out') }}
                                                                     </label>
                                                                     <div class="col-sm-6">
                                                                         <div>

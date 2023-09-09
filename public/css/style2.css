@@ -1,0 +1,119 @@
+.image-upload {
+    border-radius: 50% !important;
+    /* opacity: 0.5; */
+    position: relative;
+    top: 20%;
+    left: 13%;
+    width: 250px;
+    height: 250px;
+    background: rgba(77, 77, 77, 0.418);
+
+}
+.error{
+    border-color: #ff0000b3 !important;
+    color: red !important;
+}
+.image-upload svg{
+    border-radius: 50% !important;
+    /* opacity: 0.5; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+   font-size: 40px;
+   z-index: 1;
+}
+.image-upload input{
+    position: absolute;
+opacity: 0;
+width: 100%;
+height: 100%;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+cursor: pointer;
+z-index: 11;
+}
+
+.image-upload p{
+    position: absolute;
+    bottom: -30px;
+    left: 30px;
+}
+
+.old-image{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    opacity: 0.6;
+border-radius: 50%;
+}
+
+
+.select-field input{
+    outline: none;
+    border: none;
+}
+
+.multi-selector{
+    width: 100%;
+    position: relative;
+}
+.select-field{
+    border: 1px solid rgb(233, 236, 239);
+
+}
+.select-field,.task,.list{
+    width: 100%;
+    background-color: white;
+    padding: 0.3rem;
+}
+.input-selector{
+    color: rgb(233, 236, 239);
+}
+.multi-selector .list{
+    display: block;
+    padding: 15px;
+    position: absolute;
+    width: 96%;
+    box-shadow: 0 30px 60px rgb(0,0,0,0.2);
+    display: none;
+}
+.multi-selector .down-arrow{
+    position: absolute;
+    right: 4%;
+    color: gray;
+    font-size: 1.2rem;
+    display: inline-block;
+    cursor: pointer;
+
+    transition: 0.2s linear;
+  
+}
+.multi-selector .task{
+    display: block;
+    padding-left: 0;
+}
+.multi-selector .task span{
+    float: right;
+    font-size: 0.6rem;
+    padding-top: 6px;
+    color: gray !important; 
+}
+.multi-selector .task:hover{
+    background-color: aliceblue;
+}
+.multi-selector .show{
+    
+    display: block;
+}
+.multi-selector .rotate180{
+    transform: rotate(-60deg);
+    
+}
+

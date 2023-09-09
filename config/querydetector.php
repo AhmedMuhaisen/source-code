@@ -28,7 +28,7 @@ return [
     ],
 
     /*
-     * Define the output format that you want to use. Multiple classes are supported.
+     * Define the output format that you want to use. multiple classes are supported.
      * Available options are:
      *
      * Alert:

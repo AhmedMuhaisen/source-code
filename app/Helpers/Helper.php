@@ -855,11 +855,11 @@ function teams($members)
     $make_membars = '';
     foreach ($members as $member) {
         if (isset($member->user)) {
-            if (hasPermission('profile_view')) {
-                $url = route('user.profile', [$member->user->id, 'official']);
-            } else {
-                $url = '#';
-            }
+            // if (hasPermission('profile_view')) {
+            //     $url = route('user.profile', [$member->user->id, 'official']);
+            // } else {
+            //     $url = '#';
+            // }
             $make_membars .= '<a target="_blank" href="' . $url . '"><img data-toggle="tooltip" data-placement="top" title="' . $member->user->name . '" src="' . uploaded_asset($member->user->avatar_id) . '" class="staff-profile-image-small" ></a>';
         }
     }
@@ -1005,7 +1005,7 @@ if (!function_exists('dateFormet')) {
         }
     }
 }
-if (!function_exists('hasPermission')) {
+// if (!function_exists('hasPermission')) {
 
     function hasPermission($key_word)
     {
@@ -1018,12 +1018,12 @@ if (!function_exists('hasPermission')) {
         //     return false;
         // }
 
-        if (in_array($key_word, auth()->user()->permissions)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        // if (in_array($key_word, auth()->user()->permissions)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+    // }
 }
 
 //if function not exists

@@ -25,6 +25,14 @@
             </li>
 
 
+            <li class="nav-item  mb-1">
+                <a href="{{route('trainer.index')}}" class="nav-link">
+                    <i class="link-icon" data-feather="home"></i>
+                    <span class="link-title">trainer</span>
+                </a>
+            </li>
+
+
 
 
 

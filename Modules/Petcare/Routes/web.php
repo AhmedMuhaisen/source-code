@@ -35,143 +35,11 @@ use Modules\Petcare\Http\Controllers\SaleExpenseCategoryController;
 |
  */
 
-Route::group(['middleware' => ['xss', 'admin', 'TimeZone'], 'prefix' => ''], function () {
-    $permission = [
-        'sales' => [
-            'sale_create',
-            'sale_edit',
-            'sale_delete',
-            'sale_view',
-            'sale_list',
-        ],
-        'sale_return' => [
-            'sale_return_create',
-            'sale_return_edit',
-            'sale_return_delete',
-            'sale_return_view',
-            'sale_return_list',
-        ],
-        'sale_delivery' => [
-            'sale_delivery_create',
-            'sale_delivery_edit',
-            'sale_delivery_delete',
-            'sale_delivery_view',
-            'sale_delivery_list',
-        ],
-        'sale_transfer' => [
-            'sale_transfer_create',
-            'sale_transfer_edit',
-            'sale_transfer_delete',
-            'sale_transfer_view',
-            'sale_transfer_list',
-        ],
-        'sale_purchase' => [
-            'sale_purchase_create',
-            'sale_purchase_edit',
-            'sale_purchase_delete',
-            'sale_purchase_view',
-            'sale_purchase_list',
-        ],
-        'sale_return_purchase' => [
-            'sale_return_purchase_create',
-            'sale_return_purchase_edit',
-            'sale_return_purchase_delete',
-            'sale_return_purchase_view',
-            'sale_return_purchase_list',
-        ],
-        'sale_quotation' => [
-            'sale_quotation_create',
-            'sale_quotation_edit',
-            'sale_quotation_delete',
-            'sale_quotation_view',
-            'sale_quotation_list',
-        ],
-        'sale_cash_register' => [
-            'sale_cash_register_create',
-            'sale_cash_register_edit',
-            'sale_cash_register_delete',
-            'sale_cash_register_view',
-            'sale_cash_register_list',
-        ],
-        'sale_stock_count' => [
-            'sale_stock_count_create',
-            'sale_stock_count_edit',
-            'sale_stock_count_delete',
-            'sale_stock_count_view',
-            'sale_stock_count_list',
-        ],
-        'sale_adjusment' => [
-            'sale_adjusment_create',
-            'sale_adjusment_edit',
-            'sale_adjusment_delete',
-            'sale_adjusment_view',
-            'sale_adjusment_list',
-        ],
-        'sale_expense' => [
-            'sale_expense_create',
-            'sale_expense_edit',
-            'sale_expense_delete',
-            'sale_expense_view',
-            'sale_expense_list',
-        ],
-        'trainer' => [
-            'trainer_create',
-            'trainer_edit',
-            'trainer_delete',
-            'trainer_view',
-            'trainer_list',
-        ],
-        'sale_product' => [
-            'sale_product_create',
-            'sale_product_edit',
-            'sale_product_delete',
-            'sale_product_view',
-            'sale_product_list',
-        ],
-        'sale_product_category' => [
-            'sale_product_category_create',
-            'sale_product_category_edit',
-            'sale_product_category_delete',
-            'sale_product_category_view',
-            'sale_product_category_list',
-        ],
-        'sale_product_brand' => [
-            'sale_product_brand_create',
-            'sale_product_brand_edit',
-            'sale_product_brand_delete',
-            'sale_product_brand_view',
-            'sale_product_brand_list',
-        ],
-        'sale_product_unit' => [
-            'sale_product_unit_create',
-            'sale_product_unit_edit',
-            'sale_product_unit_delete',
-            'sale_product_unit_view',
-            'sale_product_unit_list',
-        ],
-        'sale_product_warehouse' => [
-            'sale_product_warehouse_create',
-            'sale_product_warehouse_edit',
-            'sale_product_warehouse_delete',
-            'sale_product_warehouse_view',
-            'sale_product_warehouse_list',
-        ],
-        'sale_product_tax' => [
-            'sale_product_tax_create',
-            'sale_product_tax_edit',
-            'sale_product_tax_delete',
-            'sale_product_tax_view',
-            'sale_product_tax_list',
-        ],
-        'sale_product_discount' => [
-            'sale_product_discount_create',
-            'sale_product_discount_edit',
-            'sale_product_discount_delete',
-            'sale_product_discount_view',
-            'sale_product_discount_list',
-        ],
 
-    ];
+ 
+
+    Route::resource('trainer',TrainerController::class); 
+    
     Route::group(['prefix' => ''], function () {
         // Route::get('category/list', [ProductCategoryController::class, 'index'])->name('saleProductCategory.index');
         // // Route::get('category/create', [ProductCategoryController::class, 'create'])->name('saleProductCategory.create');
@@ -234,15 +102,15 @@ Route::group(['middleware' => ['xss', 'admin', 'TimeZone'], 'prefix' => ''], fun
         Route::post('importwarehouse', [ProductWarehouseController::class, 'importWarehouse'])->name('saleProductWarehouse.import');
 
         // supplier
-        Route::get('trainer/list', [TrainerController::class, 'index'])->name('trainer.index');
-        Route::get('trainer/create', [TrainerController::class, 'create'])->name('trainer.create');
-        Route::post('trainer/store', [TrainerController::class, 'store'])->name('trainer.store');
-        Route::get('trainer/{id}/edit', [TrainerController::class, 'edit'])->name('trainer.edit');
-        Route::post('trainer/update', [TrainerController::class, 'update'])->name('trainer.update');
-        Route::delete('trainer/delete/{id}', [TrainerController::class, 'destroy'])->name('trainer.destroy');
-        Route::post('import-trainer', [TrainerController::class, 'importsupplier'])->name('trainer.import');
-        Route::post('trainer/deletebyselection', [TrainerController::class, 'deleteBySelection']);
-        Route::post('trainer/clear-due', [TrainerController::class, 'clearDue'])->name('trainer.clearDue');
+        // Route::get('trainer/list', [TrainerController::class, 'index'])->name('trainer.index');
+        // Route::get('trainer/create', [TrainerController::class, 'create'])->name('trainer.create');
+        // Route::post('trainer/store', [TrainerController::class, 'store'])->name('trainer.store');
+        // Route::get('trainer/{id}/edit', [TrainerController::class, 'edit'])->name('trainer.edit');
+        // Route::post('trainer/update', [TrainerController::class, 'update'])->name('trainer.update');
+        // Route::delete('trainer/delete/{id}', [TrainerController::class, 'destroy'])->name('trainer.destroy');
+        // Route::post('import-trainer', [TrainerController::class, 'importsupplier'])->name('trainer.import');
+        // Route::post('trainer/deletebyselection', [TrainerController::class, 'deleteBySelection']);
+        // Route::post('trainer/clear-due', [TrainerController::class, 'clearDue'])->name('trainer.clearDue');
 
         // Service 
         Route::prefix('service')->group(function () {
@@ -493,4 +361,4 @@ Route::group(['middleware' => ['xss', 'admin', 'TimeZone'], 'prefix' => ''], fun
         Route::get('ot_crm_product_search', [SaleTransferController::class, 'ot_crmProductSearch'])->name('product_transfer.search');
         Route::post('deletebyselection', [SaleTransferController::class, 'deleteBySelection']);
     });
-});
+

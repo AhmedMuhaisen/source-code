@@ -153,11 +153,11 @@ var Dropzone = function (_Emitter) {
          * also trigger additional events (like `processingmultiple`). See the events
          * documentation section for more information.
          */
-        uploadMultiple: false,
+        uploadmultiple: false,
 
         /**
          * Whether you want files to be uploaded in chunks to your server. This can't be
-         * used in combination with `uploadMultiple`.
+         * used in combination with `uploadmultiple`.
          *
          * See [chunksUploaded](#config-chunksUploaded) for the callback to finalise an upload.
          */
@@ -199,7 +199,7 @@ var Dropzone = function (_Emitter) {
 
         /**
          * The name of the file param that gets transferred.
-         * **NOTE**: If you have the option  `uploadMultiple` set to `true`, then
+         * **NOTE**: If you have the option  `uploadmultiple` set to `true`, then
          * Dropzone will append `[]` to the name.
          */
         paramName: "file",
@@ -1038,8 +1038,8 @@ var Dropzone = function (_Emitter) {
       throw new Error("You can't provide both 'acceptedFiles' and 'acceptedMimeTypes'. 'acceptedMimeTypes' is deprecated.");
     }
 
-    if (_this.options.uploadMultiple && _this.options.chunking) {
-      throw new Error('You cannot set both: uploadMultiple and chunking.');
+    if (_this.options.uploadmultiple && _this.options.chunking) {
+      throw new Error('You cannot set both: uploadmultiple and chunking.');
     }
 
     // Backwards compatibility
@@ -1393,7 +1393,7 @@ var Dropzone = function (_Emitter) {
       if (typeof this.options.paramName === "function") {
         return this.options.paramName(n);
       } else {
-        return "" + this.options.paramName + (this.options.uploadMultiple ? "[" + n + "]" : "");
+        return "" + this.options.paramName + (this.options.uploadmultiple ? "[" + n + "]" : "");
       }
     }
 
@@ -1427,7 +1427,7 @@ var Dropzone = function (_Emitter) {
       if (this.options.dictFallbackText) {
         fieldsString += "<p>" + this.options.dictFallbackText + "</p>";
       }
-      fieldsString += "<input type=\"file\" name=\"" + this._getParamName(0) + "\" " + (this.options.uploadMultiple ? 'multiple="multiple"' : undefined) + " /><input type=\"submit\" value=\"Upload!\"></div>";
+      fieldsString += "<input type=\"file\" name=\"" + this._getParamName(0) + "\" " + (this.options.uploadmultiple ? 'multiple="multiple"' : undefined) + " /><input type=\"submit\" value=\"Upload!\"></div>";
 
       var fields = Dropzone.createElement(fieldsString);
       if (this.element.tagName !== "FORM") {
@@ -2100,7 +2100,7 @@ var Dropzone = function (_Emitter) {
         return;
       }
 
-      if (this.options.uploadMultiple) {
+      if (this.options.uploadmultiple) {
         // The files should be uploaded in one request
         return this.processFiles(queuedFiles.slice(0, parallelUploads - processingLength));
       } else {
@@ -2147,7 +2147,7 @@ var Dropzone = function (_Emitter) {
         this.emit("processing", file);
       }
 
-      if (this.options.uploadMultiple) {
+      if (this.options.uploadmultiple) {
         this.emit("processingmultiple", files);
       }
 
@@ -2209,13 +2209,13 @@ var Dropzone = function (_Emitter) {
 
           this.emit("canceled", _groupedFile);
         }
-        if (this.options.uploadMultiple) {
+        if (this.options.uploadmultiple) {
           this.emit("canceledmultiple", groupedFiles);
         }
       } else if (file.status === Dropzone.ADDED || file.status === Dropzone.QUEUED) {
         file.status = Dropzone.CANCELED;
         this.emit("canceled", file);
-        if (this.options.uploadMultiple) {
+        if (this.options.uploadmultiple) {
           this.emit("canceledmultiple", [file]);
         }
       }
@@ -2251,7 +2251,7 @@ var Dropzone = function (_Emitter) {
           // This file should be sent in chunks!
 
           // If the chunking option is set, we **know** that there can only be **one** file, since
-          // uploadMultiple is not allowed with this option.
+          // uploadmultiple is not allowed with this option.
           var file = files[0];
           var transformedFile = transformedFiles[0];
           var startedChunkCount = 0;
@@ -2455,7 +2455,7 @@ var Dropzone = function (_Emitter) {
 
         this.emit("sending", _file, xhr, formData);
       }
-      if (this.options.uploadMultiple) {
+      if (this.options.uploadmultiple) {
         this.emit("sendingmultiple", files, xhr, formData);
       }
 
@@ -2771,7 +2771,7 @@ var Dropzone = function (_Emitter) {
         this.emit("success", file, responseText, e);
         this.emit("complete", file);
       }
-      if (this.options.uploadMultiple) {
+      if (this.options.uploadmultiple) {
         this.emit("successmultiple", files, responseText, e);
         this.emit("completemultiple", files);
       }
@@ -2805,7 +2805,7 @@ var Dropzone = function (_Emitter) {
         this.emit("error", file, message, xhr);
         this.emit("complete", file);
       }
-      if (this.options.uploadMultiple) {
+      if (this.options.uploadmultiple) {
         this.emit("errormultiple", files, message, xhr);
         this.emit("completemultiple", files);
       }

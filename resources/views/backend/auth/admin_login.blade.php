@@ -32,7 +32,7 @@
                                 <input type="hidden" id="login_success_fully"
                                     value="{{ _trans('frontend.Login successfully') }}">
                                 <!-- Start With form -->
-                                <form action="#" method="post" id="login"
+                                <form action="{{route('adminLogin') }}" method="post" id="login"
                                     class="  form-sample  __login_form">
                                     @csrf
 
@@ -74,7 +74,7 @@
                                         <input id="authdata" type="hidden" value="{{ __('Authenticating...') }}">
 
                                         <button type="submit"
-                                            class="submit-btn  __login_btn btn btn-primary me-2 mb-2 mb-md-0 submit">{{ _trans('auth.Sign In') }}</button>
+                                            class="submit-btn btn btn-primary me-2 mb-2 mb-md-0 submit">{{ _trans('auth.Sign In') }}</button>
                                         <button type="button" class="btn btn-outline-primary btn-icon-text mb-2 mb-md-0">
                                             <i class="btn-icon-prepend" data-feather="facebook"></i>
                                             @lang('Login with facebook')

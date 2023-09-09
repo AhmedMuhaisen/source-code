@@ -147,7 +147,7 @@ abstract class BaseRepository implements RepositoryContract
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function createMultiple(array $data)
+    public function createmultiple(array $data)
     {
         $models = new Collection();
 
@@ -196,7 +196,7 @@ abstract class BaseRepository implements RepositoryContract
      *
      * @return int
      */
-    public function deleteMultipleById(array $ids) : int
+    public function deletemultipleById(array $ids) : int
     {
         return $this->model->destroy($ids);
     }

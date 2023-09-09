@@ -111,7 +111,7 @@ trait FileHandler
         return false;
     }
 
-    public function deleteMultipleFile(array $paths)
+    public function deletemultipleFile(array $paths)
     {
         foreach ($paths as $path) {
             $this->deleteFile($path);

@@ -31,6 +31,7 @@
   
   <link rel="shortcut icon" href="{{ asset('public/theme/assets/images/favicon.png') }}">
   
+ 
   <link href="{{ asset('public/theme/assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
   <!-- plugin css -->
   <link href="{{ asset('public/theme/assets/fonts/feather-font/css/iconfont.css') }}" rel="stylesheet" />
@@ -50,8 +51,11 @@
     <link href="{{ asset('public/theme/css/app.css') }}" rel="stylesheet" />
 
     @endif 
+    <link href="{{ asset('public/css/style2.css') }}" rel="stylesheet" />
+
 
   @stack('style')
+
 </head>
 <body data-base-url="{{url('/')}}">
 

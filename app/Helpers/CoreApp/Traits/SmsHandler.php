@@ -27,7 +27,7 @@ trait SmsHandler
         return true;
     }
 
-    function sendMultipleSms($numbers, $text)
+    function sendmultipleSms($numbers, $text)
     {
         try {
             foreach ($numbers as $number) {

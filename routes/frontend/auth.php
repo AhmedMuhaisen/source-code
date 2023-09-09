@@ -8,7 +8,7 @@ use App\Http\Controllers\Frontend\Policy\PolicyController;
 use App\Http\Controllers\Frontend\Socialite\SocialController;
 
 //admin login route
-Route::post('admin-login',                  [LoginController::class, 'authenticate'])->name('admin.login')->middleware('xss');
+Route::post('admin-login',                  [LoginController::class, 'authenticate'])->name('admin.login');
 
 Route::group(['middleware' => ['xss','MaintenanceMode']], function () {
 

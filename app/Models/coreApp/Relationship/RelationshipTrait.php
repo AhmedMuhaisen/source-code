@@ -43,7 +43,7 @@ trait RelationshipTrait
     }
 
 
-    public function isExistsWhenStoreMultipleColumn($model, $column1, $column2, $value1, $value2): bool
+    public function isExistsWhenStoremultipleColumn($model, $column1, $column2, $value1, $value2): bool
     {
         $data = $model->query()->where([
             'company_id' => $this->companyInformation()->id,

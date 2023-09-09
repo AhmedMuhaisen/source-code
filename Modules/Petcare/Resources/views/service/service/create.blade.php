@@ -273,7 +273,7 @@
         myDropzone = new Dropzone('div#imageUpload', {
             addRemoveLinks: true,
             autoProcessQueue: false,
-            uploadMultiple: true,
+            uploadmultiple: true,
             parallelUploads: 100,
             maxFilesize: 12,
             paramName: 'image',
